@@ -45,16 +45,18 @@ class SeatsHome extends Component {
         console.log('state in SeatsHome ', this.state);
         console.log('props in SeatsHome ', this.props);
         return (
-            <div>Seats Home !
+            <div className="container">
                 {this.state.periods !== null && this.state.terrains !== null ?
-                    (<div>
-                        <div>
+                    (<div className="row align-middle">
+                        <div className="col-12 col-md-5">
                             <select
+                                className="form-select"
+                                aria-label="Default select example"
                                 onChange={e => {
                                     const { value } = e.target;
                                     this.setState({
                                         period: value
-                                    }, () =>  this.props.selectPeriod(value))
+                                    }, () => this.props.selectPeriod(value))
                                 }}
                             >
                                 <option>Seleccione un periodo</option>
@@ -63,13 +65,15 @@ class SeatsHome extends Component {
                                 ))}
                             </select>
                         </div>
-                        <div>
+                        <div className="col-12 col-md-5">
                             <select
+                                className="form-select"
+                                aria-label="Default select example"
                                 onChange={e => {
                                     const { value } = e.target;
                                     this.setState({
                                         terrain: value
-                                    }, () =>  this.props.selectTerrain(value) )
+                                    }, () => this.props.selectTerrain(value))
                                 }}
                             >
                                 <option>Seleccione un terreno</option>
@@ -78,8 +82,8 @@ class SeatsHome extends Component {
                                 ))}
                             </select>
                         </div>
-                        <div>
-                            <button><Link to="/options">Buscar</Link></button>
+                        <div className="col-12 col-md-2">
+                            <button className="btn btn-primary"><Link to="/options" className="text-white">Buscar</Link></button>
                         </div>
                     </div>)
                     :
@@ -91,8 +95,8 @@ class SeatsHome extends Component {
 
 function mapStateToProps({ seats }) {
     return {
-      seats: seats
+        seats: seats
     };
-  }
+}
 
 export default connect(mapStateToProps, { selectPeriod, selectTerrain, savePeriodsAndTerrains })(SeatsHome);
