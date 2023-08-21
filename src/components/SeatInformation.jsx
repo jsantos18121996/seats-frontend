@@ -3,6 +3,9 @@ import React, { Component, Fragment } from "react";
 import seatIconEnabled from '../assets/images/asiento-enabled.svg'
 import seatIconDisabled from '../assets/images/asiento-occupied.svg';
 
+import '../assets/stylesheets/Seats.css';
+
+
 class SeatInformation extends Component {
 
     
@@ -36,7 +39,8 @@ class SeatInformation extends Component {
                                                         className={column.status === "A" ? "btn-seat" : "btn-seat-disabled"}
                                                         disabled={column.status === "A" ? false : true}
                                                     >{column.status !== "S" ? 
-                                                        (<img src={this.getImgAvailability(column.status)} style={{height : "50%"}} 
+                                                        (<img src={this.getImgAvailability(column.status)} style={{height : "50%"}}
+                                                            alt="img para test" 
                                                             
                                                              />) : null}
                                                     </button>
