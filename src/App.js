@@ -1,4 +1,4 @@
-import { React, Component } from 'react';
+import React , { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SeatsHome from './components/SeatsHome';
@@ -7,14 +7,27 @@ import SeatsOption1 from './components/SeatsOption1';
 
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
   render() {
+    console.log('this.props in APP ', this.props)
     return (
       <Router>
         <div className="App">
           <Routes>
-            <Route exact path='/' element={< SeatsHome />}></Route>
+            <Route exact 
+              path='/' 
+              element={< SeatsHome />}>
+              
+            </Route>
             <Route exact path='/options' element={< SeatsOptions />}></Route>
-            <Route exact path='/options/1' element={< SeatsOption1 />}></Route>
+            <Route 
+              exact path='/options/1'
+              element={<SeatsOption1 />}
+            />
           </Routes>
         </div>
       </Router>
