@@ -1,24 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { selectPeriod, selectTerrain, getSeats } from '../actions/seatsActions';
+import { selectPeriod, selectTerrain, getSeats, getTreesByPeriodAndTerrain } from '../actions/seatsActions';
 import SeatInformation from "./SeatInformation";
 
 class SeatsOption1 extends Component {
 
-    //aumentar a json, 
-    /***
-     * {
-     * periodo : "2024-I",
-     * terrenos : [
-     *  {name : "T0001", trees: []}
-     * ]
-     * }
-     */
-
     constructor(props) {
         super(props);
-        console.log('props en constructor !!!!!! ', props);
         this.state = {
             periods: this.props.seats.periods,
             terrains: this.props.seats.terrains,
@@ -28,19 +17,16 @@ class SeatsOption1 extends Component {
     }
 
     componentDidMount = () => {
-        console.log('recuperamos valores del props ', this.props);
-        const { period, terrain } = this.props.seats;
+        const { period, terrain, trees } = this.props.seats;
         const data = {
             period,
-            terrain
+            terrain,
+            trees
         }
-        this.props.getSeats(data);
+        this.props.getTreesByPeriodAndTerrain(data);
     }
 
     render() {
-        console.log('props in SeatsOption1 ', this.props);
-        console.log('state in SeatsOption1 ', this.state);
-        //console.log('asientos in SeatsOption1', this.props.seats.seats.seats);
         return (
             <div className="container">
                 <div className="row mt-3 mb-3">
@@ -57,7 +43,7 @@ class SeatsOption1 extends Component {
                         >
                             <option>Seleccione un periodo</option>
                             {this.state.periods.map(period => (
-                                <option key={period} value={period}>{period}</option>
+                                <option key={period.period} value={period.period}>{period.period}</option>
                             ))}
                         </select>
                     </div>
@@ -74,7 +60,7 @@ class SeatsOption1 extends Component {
                         >
                             <option>Seleccione un terreno</option>
                             {this.state.terrains.map(terrain => (
-                                <option key={terrain} value={terrain}>{terrain}</option>
+                                <option key={terrain.terrain} value={terrain.terrain}>{terrain.terrain}</option>
                             ))}
                         </select>
                     </div>
@@ -83,20 +69,29 @@ class SeatsOption1 extends Component {
                             className="btn btn-primary"
                             onClick={() => {
                                 const { period, terrain } = this.state;
+                                const { trees } = this.props.seats;
                                 const data = {
                                     period,
-                                    terrain
+                                    terrain,
+                                    trees
                                 }
-                                this.props.getSeats(data);
+                                this.props.getTreesByPeriodAndTerrain(data);
                             }}
                         >Buscar</button>
                     </div>
                 </div>
 
                 {
-                    this.props.seats !== null && this.props.seats.seats !== null ?
+                    this.props.seats !== null && this.props.seats.treesSelected !== null ?
                         (<div className="row">
-                            <SeatInformation seats={this.props} />
+                            <SeatInformation 
+                                period={this.props.seats.period} 
+                                terrain={this.props.seats.terrain}
+                                periods={this.props.seats.periods}
+                                terrains={this.props.seats.terrains}
+                                trees={this.props.seats.trees}
+                                treesSelected={this.props.seats.treesSelected}
+                            />
                         </div>) :
                         "Cargando informacion de asientos..."
                 }
@@ -112,4 +107,4 @@ function mapStateToProps({ seats }) {
     };
 }
 
-export default connect(mapStateToProps, { selectPeriod, selectTerrain, getSeats })(SeatsOption1);
+export default connect(mapStateToProps, { selectPeriod, selectTerrain, getSeats, getTreesByPeriodAndTerrain })(SeatsOption1);

@@ -5,10 +5,8 @@ import { Link } from 'react-router-dom';
 class SeatsOptions extends Component {
 
     render() {
-        console.log('SeatsOptions ', this.props)
         return (
             <div>
-                SeatsOptions !
                 <ul className="App-header">
                     <li>
                         <Link to="/options/1">Opcion 1</Link>

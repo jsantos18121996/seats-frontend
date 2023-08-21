@@ -18,21 +18,24 @@ class SeatInformation extends Component {
     }
 
     render() {
-        console.log('Seat Information render props ', this.props);
-        //this.props.seats.seats.seats.seats.segments[0].rows.map(
-        const seats = this.props.seats.seats.seats.seats.segments[0].rows;
+        const rows = this.props.treesSelected.treesSelected.rows;
 
         return (
             <div className="SeatsInformation">
-                <div className="SeatsInformation__header">Grilla de asientos</div>
+                <div className="SeatsInformation__header">
+                    
+                    <div>Árboles</div>
+                    <div>Periodo seleccionado: {this.props.treesSelected.periodSelected}</div>
+                    <div>Terreno seleccionado: {this.props.treesSelected.terrainSelected}</div>
+                </div>
                 <div className="SeatsInformation__body">
-                    {seats.map((seat, i) => {
+                    {rows.map((r, i) => {
                         return( 
                             <div className="row" key={i}>
                                 {/* AQUI EVALUAR EL ATRIBUTO SEAT.SPACE QUE VENDRÁ POR CADA SEAT O FILA, EN ESE CASO SE AGREGA POR INDEX UN COL  */}
-                                {seat.rowNumber}
+                                {r.rowNumber}
                                 <Fragment>
-                                    {seat.columns.map((column, index) => {
+                                    {r.columns.map((column, index) => {
                                         return(
                                             
                                                 <div className="col" key={index}> 

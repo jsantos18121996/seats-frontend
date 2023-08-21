@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
-import { selectPeriod, selectTerrain, savePeriodsAndTerrains } from '../actions/seatsActions';
+import { selectPeriod, selectTerrain, savePeriodsAndTerrains, getSeats } from '../actions/seatsActions';
 
 class SeatsHome extends Component {
 
@@ -16,10 +16,7 @@ class SeatsHome extends Component {
     }
 
     componentDidMount = () => {
-        //periods y terrains pueden venir de un servicio
-        //puede venir de un endpoint que liste todos los periodos por defecto
-        //seats/all y además lo podrá guardar en memoria Redux
-        //en ese caso se debe comentar la funcion savePeriodsAndTerrains
+        this.props.getSeats(null);//llamado al api general
         const periods = [
             "2022-I",
             "2022-II",
@@ -32,21 +29,15 @@ class SeatsHome extends Component {
             "T003",
             "T004"
         ]
-        const data = {
-            periods,
-            terrains
-        }
-        this.setState({ periods, terrains }, () => {
+        /*this.setState({ periods, terrains }, () => {
             this.props.savePeriodsAndTerrains(data)
-        })
+        })*/
     }
 
     render() {
-        console.log('state in SeatsHome ', this.state);
-        console.log('props in SeatsHome ', this.props);
         return (
-            <div className="container">
-                {this.state.periods !== null && this.state.terrains !== null ?
+            <div className="container mt-3 mb-3">
+                {this.props.seats.periods ?
                     (<div className="row align-middle">
                         <div className="col-12 col-md-5">
                             <select
@@ -60,8 +51,8 @@ class SeatsHome extends Component {
                                 }}
                             >
                                 <option>Seleccione un periodo</option>
-                                {this.state.periods.map(period => (
-                                    <option key={period} value={period}>{period}</option>
+                                {this.props.seats.periods.map(period => (
+                                    <option key={period.period} value={period.period}>{period.period}</option>
                                 ))}
                             </select>
                         </div>
@@ -77,17 +68,20 @@ class SeatsHome extends Component {
                                 }}
                             >
                                 <option>Seleccione un terreno</option>
-                                {this.state.terrains.map(terrain => (
-                                    <option key={terrain} value={terrain}>{terrain}</option>
+                                {this.props.seats.terrains.map(terrain => (
+                                    <option key={terrain.terrain} value={terrain.terrain}>{terrain.terrain}</option>
                                 ))}
                             </select>
                         </div>
                         <div className="col-12 col-md-2">
-                            <button className="btn btn-primary"><Link to="/options" className="text-white">Buscar</Link></button>
+                            <button className="btn btn-primary"
+                                disabled={(this.state.period === null || this.state.terrain === null) ? true : false}
+                            >
+                                <Link to="/options" className="text-white">Buscar</Link>
+                            </button>
                         </div>
-                    </div>)
-                    :
-                    "Cargando"}
+                    </div>) : "Cargandoo..."
+                }
 
             </div>)
     }
@@ -99,4 +93,4 @@ function mapStateToProps({ seats }) {
     };
 }
 
-export default connect(mapStateToProps, { selectPeriod, selectTerrain, savePeriodsAndTerrains })(SeatsHome);
+export default connect(mapStateToProps, { selectPeriod, selectTerrain, savePeriodsAndTerrains, getSeats })(SeatsHome);
