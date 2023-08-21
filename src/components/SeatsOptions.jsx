@@ -4,10 +4,6 @@ import { Link } from 'react-router-dom';
 
 class SeatsOptions extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         console.log('SeatsOptions ', this.props)
         return (
