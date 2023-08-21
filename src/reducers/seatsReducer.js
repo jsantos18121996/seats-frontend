@@ -7,7 +7,7 @@ const initialState = {
     seats: null
 }
 
-export default function (state = initialState, action) {
+export default function seats (state = initialState, action) {
     switch (action.type) {
         case 'SELECT_PERIOD':
             const period = action.payload;
