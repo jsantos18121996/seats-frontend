@@ -15,9 +15,10 @@ function getTreesSelected(data) {
     let periodSelected = period;
     let treesSelected = null;
     let terrainSelected = terrain;
-    trees.map(tree => {
+
+    trees.forEach(tree => {
         if(tree.period === period) {
-            tree.terrains.map(t => {
+            tree.terrains.forEach(t => {
                 if(t.terrain === terrain) {
                     treesSelected = t;
                 }

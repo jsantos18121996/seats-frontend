@@ -17,21 +17,6 @@ class SeatsHome extends Component {
 
     componentDidMount = () => {
         this.props.getSeats(null);//llamado al api general
-        const periods = [
-            "2022-I",
-            "2022-II",
-            "2023-III",
-            "2024-I"
-        ];
-        const terrains = [
-            "T001",
-            "T002",
-            "T003",
-            "T004"
-        ]
-        /*this.setState({ periods, terrains }, () => {
-            this.props.savePeriodsAndTerrains(data)
-        })*/
     }
 
     render() {
