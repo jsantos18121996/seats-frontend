@@ -20,15 +20,17 @@ class SeatInformation extends Component {
     render() {
         console.log('Seat Information render props ', this.props);
         //this.props.seats.seats.seats.seats.segments[0].rows.map(
+        const seats = this.props.seats.seats.seats.seats.segments[0].rows;
+
         return (
             <div className="SeatsInformation">
                 <div className="SeatsInformation__header">Grilla de asientos</div>
                 <div className="SeatsInformation__body">
-                    {this.props.seats.seats.seats.seats.segments[0].rows.map((seat, i) => {
+                    {seats.map((seat, i) => {
                         return( 
                             <div className="row" key={i}>
                                 {/* AQUI EVALUAR EL ATRIBUTO SEAT.SPACE QUE VENDRÁ POR CADA SEAT O FILA, EN ESE CASO SE AGREGA POR INDEX UN COL  */}
-                                
+                                {seat.rowNumber}
                                 <Fragment>
                                     {seat.columns.map((column, index) => {
                                         return(
@@ -36,10 +38,10 @@ class SeatInformation extends Component {
                                                 <div className="col" key={index}> 
                                                     {column.value}
                                                     <button 
-                                                        className={column.status === "A" ? "btn-seat" : "btn-seat-disabled"}
+                                                        className={column.status === "A" ? "btn  btn-seat" : "btn btn-seat-disabled"}
                                                         disabled={column.status === "A" ? false : true}
                                                     >{column.status !== "S" ? 
-                                                        (<img src={this.getImgAvailability(column.status)} style={{height : "50%"}}
+                                                        (<img src={this.getImgAvailability(column.status)} style={{height : "60px", width: "60px "}}
                                                             alt="img para test" 
                                                             
                                                              />) : null}

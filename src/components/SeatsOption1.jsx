@@ -43,7 +43,7 @@ class SeatsOption1 extends Component {
         //console.log('asientos in SeatsOption1', this.props.seats.seats.seats);
         return (
             <div className="container">
-                <div className="row">
+                <div className="row mt-3 mb-3">
                     <div className="col-12 col-md-5">
                         <select
                             className="form-select"
