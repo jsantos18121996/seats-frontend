@@ -1,13 +1,12 @@
 import React, { Component, Fragment } from "react";
 
-import seatIconEnabled from '../assets/images/asiento-enabled.svg'
-import seatIconDisabled from '../assets/images/asiento-occupied.svg';
+import seatIconEnabled from '../assets/images/icons/arbol-green.png';
+import seatIconDisabled from '../assets/images/icons/arbol-red.png';
 
 import '../assets/stylesheets/Seats.css';
 
 
 class SeatInformation extends Component {
-
     
     getImgAvailability = (status) => {
         if(status === "T") {
@@ -39,16 +38,11 @@ class SeatInformation extends Component {
                                         return(
                                             
                                                 <div className="col" key={index}> 
-                                                    {column.value}
-                                                    <button 
-                                                        className={column.status === "A" ? "btn  btn-seat" : "btn btn-seat-disabled"}
-                                                        disabled={column.status === "A" ? false : true}
-                                                    >{column.status !== "S" ? 
+                                                    {column.value}{column.status !== "S" ? 
                                                         (<img src={this.getImgAvailability(column.status)} style={{height : "60px", width: "60px "}}
                                                             alt="img para test" 
                                                             
                                                              />) : null}
-                                                    </button>
                                                 </div>
                                             
                                         )
