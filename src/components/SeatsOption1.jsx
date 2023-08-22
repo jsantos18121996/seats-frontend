@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import { selectPeriod, selectTerrain, getSeats, getTreesByPeriodAndTerrain } from '../actions/seatsActions';
 import SeatInformation from "./SeatInformation";
+import Navbar from "./Navbar";
 
 class SeatsOption1 extends Component {
 
