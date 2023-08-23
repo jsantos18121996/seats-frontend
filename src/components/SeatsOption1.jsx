@@ -74,7 +74,10 @@ class SeatsOption1 extends Component {
             <div>
                 <Navbar />
                 {this.state.periods !== null && this.state.terrains !== null ?
-                    (<div className="container">
+                    (<div className="container mt-3">
+                        <div className="row">
+                        <h3>Reporte 1</h3>
+                        </div>
                         <div className="row mt-3 mb-3">
                             <div className="col-12 col-md-5">
                                 <select

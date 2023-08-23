@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SeatsHome from './components/SeatsHome';
 import SeatsOptions from './components/SeatsOptions';
 import SeatsOption1 from './components/SeatsOption1';
+import SeatsOption2 from './components/SeatsOption2';
 
 
 function App() {
@@ -21,6 +22,10 @@ function App() {
           <Route
             exact path='/options/1'
             element={<SeatsOption1 />}
+          />
+          <Route
+            exact path='/options/2'
+            element={<SeatsOption2 />}
           />
         </Routes>
       </div>

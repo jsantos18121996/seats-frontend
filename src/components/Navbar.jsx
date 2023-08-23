@@ -10,9 +10,8 @@ class Navbar extends Component {
         this.state = {
             pages: [
                 { name: "Home", href: "/" },
-                { name: "Opcion1", href: "/options/1" },
-                { name: "Opcion2", href: "/options/2" },
-                { name: "Opcion3", href: "/options/3" }
+                { name: "Reporte1", href: "/options/1" },
+                { name: "Reporte2", href: "/options/2" }
             ]
         }
     }
