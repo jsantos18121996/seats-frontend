@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from 'react-router-dom';
 import { selectPeriod, selectTerrain, savePeriodsAndTerrains, getSeats } from '../actions/seatsActions';
 import Navbar from "./Navbar";
 
