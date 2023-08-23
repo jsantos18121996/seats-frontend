@@ -17,61 +17,13 @@ class SeatsHome extends Component {
     }
 
     componentDidMount = () => {
-        this.props.getSeats(null);//llamado al api general
+        //this.props.getSeats(null);//llamado al api general
     }
 
     render() {
         return (
             <div>
                 <Navbar />
-                <div className="container mt-3 mb-3">
-                    {this.props.seats.periods ?
-                        (<div className="row align-middle">
-                            <div className="col-12 col-md-5">
-                                <select
-                                    className="form-select"
-                                    aria-label="Default select example"
-                                    onChange={e => {
-                                        const { value } = e.target;
-                                        this.setState({
-                                            period: value
-                                        }, () => this.props.selectPeriod(value))
-                                    }}
-                                >
-                                    <option>Seleccione un periodo</option>
-                                    {this.props.seats.periods.map(period => (
-                                        <option key={period.period} value={period.period}>{period.period}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="col-12 col-md-5">
-                                <select
-                                    className="form-select"
-                                    aria-label="Default select example"
-                                    onChange={e => {
-                                        const { value } = e.target;
-                                        this.setState({
-                                            terrain: value
-                                        }, () => this.props.selectTerrain(value))
-                                    }}
-                                >
-                                    <option>Seleccione un terreno</option>
-                                    {this.props.seats.terrains.map(terrain => (
-                                        <option key={terrain.terrain} value={terrain.terrain}>{terrain.terrain}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="col-12 col-md-2">
-                                <button className="btn btn-primary"
-                                    disabled={(this.state.period === null || this.state.terrain === null) ? true : false}
-                                >
-                                    <Link to="/options" className="text-white">Buscar</Link>
-                                </button>
-                            </div>
-                        </div>) : "Cargandoo..."
-                    }
-
-                </div>
             </div>
         )
     }
