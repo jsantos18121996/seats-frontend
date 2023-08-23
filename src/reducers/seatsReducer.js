@@ -7,7 +7,8 @@ const initialState = {
     terrain: null,
     trees: null,
     data: null,
-    treesSelected: null
+    treesSelected: null,
+    isLoading: false
 }
 
 function getTreesSelected(data) {

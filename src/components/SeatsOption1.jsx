@@ -14,7 +14,7 @@ class SeatsOption1 extends Component {
             terrains: null,
             period: null,
             terrain: null,
-            isLoading : false
+            isLoading : this.props.seats.isLoading,
         }
     }
 
@@ -64,7 +64,12 @@ class SeatsOption1 extends Component {
             periods : periods,
             terrains : terrains
         })
-        //this.props.getTreesByPeriodAndTerrain(data);
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        this.setState({
+            isLoading : false
+        })
     }
 
     render() {
@@ -117,22 +122,31 @@ class SeatsOption1 extends Component {
                                 </select>
                             </div>
                             <div className="col-12 col-md-2">
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={() => {
-                                        const { period, terrain } = this.state;
-                                        //const { trees } = this.props.seats;
-                                        const data = {
-                                            period,
-                                            terrain
-                                        }
-                                        this.props.getTreesByPeriodAndTerrain(data);
-                                    }}
-                                >Buscar</button>
+                                    <button
+                                        className={"btn btn-primary"}
+                                        disabled={!this.state.isLoading ? false : true}
+                                        onClick={() => {
+                                            const { period, terrain } = this.state;
+                                            //const { trees } = this.props.seats;
+                                            if(period === null || terrain === null) {
+                                                alert("Debe elegir periodo y terreno, por favor");
+                                            } else {
+                                                const data = {
+                                                    period,
+                                                    terrain
+                                                }
+                                                this.setState({
+                                                    isLoading : true
+                                                }, () => {
+                                                    this.props.getTreesByPeriodAndTerrain(data);
+                                                })    
+                                            }
+                                            
+                                        }}
+                                    >{this.state.isLoading ? "Buscando..." : "Buscar"}</button>
                             </div>
                         </div>
 
-                        {this.state.isLoading ? "Cargando" : null}
                         {this.props.seats !== null && this.props.seats.treesSelected !== null ?
                                 (<div className="row">
                                     <SeatInformation 
