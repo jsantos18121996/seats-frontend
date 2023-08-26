@@ -4,8 +4,15 @@ import { connect } from "react-redux";
 import { selectPeriod, selectTerrain, getSeats, getTreesByPeriodAndTerrain } from '../actions/seatsActions';
 import SeatInformation from "./SeatInformation";
 import Navbar from "./Navbar";
+import withRouter from "./WithRouter";
+import { createBrowserHistory } from "history";
+import Loading from "./Loading";
+
 
 class SeatsOption1 extends Component {
+
+   
+
 
     constructor(props) {
         super(props);
@@ -20,6 +27,10 @@ class SeatsOption1 extends Component {
 
     componentDidMount = () => {
         //const { period, terrain, trees } = this.props.seats;
+        console.log('en componentDidMOunt del SeatsOption1 ', this.props);
+       
+        //this.props.params.period = "2023-I";
+        //console.log('useParams()', useParams());
        
         const terrains =  [
             {terrain : "T001"},
@@ -51,7 +62,7 @@ class SeatsOption1 extends Component {
                 ]
             },
             {
-                period : "2023-I",
+                period : "2023-II",
                 terrains: [
                     {terrain : "T001"},
                     {terrain : "T002"},
@@ -60,21 +71,46 @@ class SeatsOption1 extends Component {
                 ]
             }
         ]
-        this.setState({
-            periods : periods,
-            terrains : terrains
-        })
+        if(this.props.params.period && this.props.params.terrain) {
+            console.log('si tiene params en el navegador !');
+            const {period, terrain} = this.props.params;
+            this.setState({
+                periods : periods,
+                terrains : terrains,
+                period : period,
+                terrain : terrain,
+                isLoading : true
+            }, () => {
+                const data = {
+                    period,
+                    terrain
+                }
+                this.props.getTreesByPeriodAndTerrain(data);
+            })
+        } else {
+            console.log('no tiene params en navegador !');
+            this.setState({
+                periods : periods,
+                terrains : terrains
+            })
+        }
+       
     }
 
     componentWillReceiveProps = (nextProps) => {
+        console.log('entrando al componentWillReceiveProps ', nextProps);
         this.setState({
             isLoading : false
         })
     }
 
+    componentWillUnmount = () => {
+        console.log('componentWillUnmount !!!!!!!');
+    } 
+
     render() {
-        console.log('seatsOptions ', this.props);
-        console.log('states ', this.state);
+        console.log('seatsOptions state ', this.state);
+        console.log('seatOptions props ', this.props);
         return (
             <div>
                 <Navbar />
@@ -139,6 +175,9 @@ class SeatsOption1 extends Component {
                                                     isLoading : true
                                                 }, () => {
                                                     this.props.getTreesByPeriodAndTerrain(data);
+                                                    let history = createBrowserHistory();
+                                                    console.log('history ', history.location);
+                                                    history.replace(`/options/1/period/${this.state.period}/terrain/${this.state.terrain}`)
                                                 })    
                                             }
                                             
@@ -147,8 +186,14 @@ class SeatsOption1 extends Component {
                             </div>
                         </div>
 
-                        {this.props.seats !== null && this.props.seats.treesSelected !== null ?
-                                (<div className="row">
+                        {
+                            this.state.isLoading ? 
+                            (<Loading />) :
+                            (this.props.seats.treesSelected === null ? (null) :
+                            (this.state.isLoading ? (<Loading />) : 
+                                (this.props.seats.treesSelected.treesSelected !== null
+                                    && this.props.seats.treesSelected.treesSelected.rows.length > 0 ? (
+                                    (<div className="row">
                                     <SeatInformation 
                                         period={this.props.seats.period} 
                                         terrain={this.props.seats.terrain}
@@ -157,8 +202,11 @@ class SeatsOption1 extends Component {
                                         trees={this.props.seats.trees}
                                         treesSelected={this.props.seats.treesSelected}
                                     />
-                                </div>) : null
+                                </div>)
+                                ) : "No se encontraron resultados"))
+                            )
                         }
+
                     </div>) : "Loading..."
                 }
             </div>
@@ -171,5 +219,7 @@ function mapStateToProps({ seats }) {
         seats: seats
     };
 }
+export default withRouter(connect(mapStateToProps, { selectPeriod, selectTerrain, getSeats, getTreesByPeriodAndTerrain })(SeatsOption1)) 
 
-export default connect(mapStateToProps, { selectPeriod, selectTerrain, getSeats, getTreesByPeriodAndTerrain })(SeatsOption1);
+//export default withRouter(SeatsOption1) 
+//connect(mapStateToProps, { selectPeriod, selectTerrain, getSeats, getTreesByPeriodAndTerrain })(SeatsOption1)  ;

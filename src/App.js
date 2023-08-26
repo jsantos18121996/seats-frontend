@@ -7,7 +7,7 @@ import SeatsOption1 from './components/SeatsOption1';
 import SeatsOption2 from './components/SeatsOption2';
 
 
-function App() {
+const App = () => {
 
   return (
     <Router>
@@ -22,6 +22,13 @@ function App() {
           <Route
             exact path='/options/1'
             element={<SeatsOption1 />}
+          />
+          <Route
+          
+            path="/options/1/period/:period/terrain/:terrain"
+            element={
+              <SeatsOption1 />
+            }
           />
           <Route
             exact path='/options/2'

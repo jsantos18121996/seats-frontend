@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import Navbar from "./Navbar";
+import withRouter from "./WithRouter";
 
 class SeatsOption2 extends Component {
+    componentDidMount = () => {
+        console.log('SeatsOption2 didMount ', this.props);
+    }
     render() {
         return(
         <div className="" 
@@ -17,4 +21,4 @@ class SeatsOption2 extends Component {
     }
 }
 
-export default SeatsOption2;
+export default withRouter(SeatsOption2);

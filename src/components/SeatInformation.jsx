@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import seatIconEnabled from '../assets/images/icons/arbol-green.png';
 import seatIconDisabled from '../assets/images/icons/arbol-red.png';
@@ -14,6 +15,35 @@ class SeatInformation extends Component {
         } else {
             return seatIconEnabled;
         }
+    }
+
+    tooltip = (i, column, row) => {
+        console.log('offerItems ', row.offerItems);
+        console.log('status ! ', column.status);
+        if (column.status === "A") {
+            return (
+                <Tooltip
+                    id={`tooltip-description-${i}`}
+                    placement="top"
+                    className="in"
+                    key={i}
+                ><p>Fila: {row.rowNumber} Columna: {column.value} Estado: Árbol Sano</p>
+                </Tooltip>
+            )
+        } else if (column.status === "T") {
+            return (
+                <Tooltip
+                    id={`tooltip-description-${i}`}
+                    placement="top"
+                    className="in"
+                    key={i}
+                    ><p>Fila: {row.rowNumber} Columna: {column.value} Estado: Árbol Enfermo</p>
+                    </Tooltip>
+            )
+        } else {
+            return (<div></div>)
+        }
+
     }
 
     render() {
@@ -36,7 +66,10 @@ class SeatInformation extends Component {
                                 <Fragment>
                                     {r.columns.map((column, index) => {
                                         return(
-                                            
+                                            <OverlayTrigger
+                                            placement="top"
+                                            overlay={this.tooltip(index, column, r)}
+                                            >
                                                 <div className="col" key={index}> 
                                                     {column.value}{column.status !== "S" ? 
                                                         (<img src={this.getImgAvailability(column.status)} style={{height : "60px", width: "60px "}}
@@ -44,6 +77,8 @@ class SeatInformation extends Component {
                                                             
                                                              />) : null}
                                                 </div>
+                                            </OverlayTrigger>
+                                                
                                             
                                         )
                                     } )
