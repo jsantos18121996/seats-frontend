@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React from "react";
 
 import iconHome from '../assets/images/icons/arbol.png';
 import { Link } from "react-router-dom";
