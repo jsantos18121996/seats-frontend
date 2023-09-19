@@ -7,11 +7,11 @@ const requestConfig = {
 
 export const getSeats = (data) => async dispatch => {
     const URI = `https://seats-backend.onrender.com/api/seats/search`;
-    
+
     const res = await axios.post(URI, data, requestConfig);
     dispatch({
-      type: GET_SEATS,
-      payload : res.data
+        type: GET_SEATS,
+        payload: res.data
     })
 
 }
@@ -40,19 +40,18 @@ export const savePeriodsAndTerrains = (data) => async dispatch => {
 export const getTreesByPeriodAndTerrain = (data) => async dispatch => {
 
     const URI = `https://seats-backend.onrender.com/api/seats/search`;
+    //const URI = `http://localhost:5000/api/seats/search`;
     console.log('data RQ ', data);
     try {
         const res = await axios.post(URI, data, requestConfig);
         console.log('res.data getTreesByPeriodAndTerrain', res.data);
-        const { trees } = res.data.data;
-        console.log('variable trees ', trees);
-        data["trees"] = trees;
+        const { rows } = res.data.data;
+        console.log('variable rows ', rows);
+        data["rows"] = rows;
     } catch (error) {
         console.log('error in getTreesByPeriodAndTerrain ', error);
     }
 
-    
-    
     dispatch({
         type: GET_TREES_BY_PERIOD_AND_TERRAIN,
         payload: data

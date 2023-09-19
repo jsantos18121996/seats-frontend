@@ -12,11 +12,12 @@ const initialState = {
 }
 
 function getTreesSelected(data) {
-    const { period, terrain, trees } = data;
+    console.log("data ", data);
+    const { period, terrain, rows } = data;
     let periodSelected = period;
-    let treesSelected = null;
     let terrainSelected = terrain;
 
+    /*
     trees.forEach(tree => {
         if(tree.period === period) {
             tree.terrains.forEach(t => {
@@ -26,14 +27,16 @@ function getTreesSelected(data) {
             })
         }
     })
+    */
+
     return {
         periodSelected,
-        treesSelected,
-        terrainSelected
+        terrainSelected,
+        rows
     }
 }
 
-export default function seats (state = initialState, action) {
+export default function seats(state = initialState, action) {
     switch (action.type) {
         case SELECT_PERIOD:
             const period = action.payload;
@@ -53,7 +56,7 @@ export default function seats (state = initialState, action) {
                 terrains,
                 trees
             });
-        
+
         case GET_TREES_BY_PERIOD_AND_TERRAIN:
             const treesSelected = getTreesSelected(action.payload);
             return Object.assign({}, state, {
