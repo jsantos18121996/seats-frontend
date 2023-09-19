@@ -5,6 +5,7 @@ import SeatsHome from './components/SeatsHome';
 import SeatsOptions from './components/SeatsOptions';
 import SeatsOption1 from './components/SeatsOption1';
 import SeatsOption2 from './components/SeatsOption2';
+import SeatsOption3 from './components/SeatsOption3';
 
 
 const App = () => {
@@ -33,6 +34,10 @@ const App = () => {
           <Route
             exact path='/options/2'
             element={<SeatsOption2 />}
+          />
+          <Route
+            exact path='/options/3'
+            element={<SeatsOption3 />}
           />
         </Routes>
       </div>
