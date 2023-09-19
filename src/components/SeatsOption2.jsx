@@ -107,9 +107,6 @@ class SeatsOption2 extends Component {
                                             if (period === null) {
                                                 alert("Debe elegir periodo, por favor");
                                             } else {
-                                                const data = {
-                                                    period
-                                                }
                                                 this.setState({
                                                     //isLoading: true
                                                 }, () => {
