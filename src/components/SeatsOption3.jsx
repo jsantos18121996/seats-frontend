@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import BarGraphic from "./BarGraphic";
 import Navbar from "./Navbar";
+import { connect } from "react-redux";
+import withRouter from "./WithRouter";
+import { getTerrainsByPeriod } from '../actions/seatsActions';
 
 class SeatsOption3 extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            period: "",
+            period: null,
             periods: [
                 {
                     period: "2023-I",
@@ -33,21 +36,83 @@ class SeatsOption3 extends Component {
                         { terrain: "T003" }
                     ]
                 },
-            ]
+            ],
+            isLoadingTerrainsByPeriod: false
         }
     }
+
+    getDataByTerrainsForBar(terrainsByPeriod) {
+        let terrains = [];
+        terrainsByPeriod.forEach(t => {
+            terrains.push(t.code);
+        });
+        let sanos = [];
+        let enfermos = [];
+        let nds = [];
+
+        terrainsByPeriod.forEach(t => {
+            t.results.forEach(r => {
+                switch (r.type) {
+                    case "sano":
+                        sanos.push(r.quantity);
+                        break;
+                    case "enfermo":
+                        enfermos.push(r.quantity);
+                        break;
+                    default:
+                        nds.push(r.quantity);
+                }
+            })
+        });
+
+        const myData = {
+            labels: terrains,
+            datasets: [
+                {
+                    labels: "Sanos",
+                    data: sanos,
+                    backgroundColor: 'green',
+                    stack: 'Stack 0'
+                },
+                {
+                    labels: "Enfermos",
+                    data: enfermos,
+                    backgroundColor: 'red',
+                    stack: 'Stack 0'
+                },
+                {
+                    labels: "No determinado",
+                    data: nds,
+                    backgroundColor: 'gray',
+                    stack: 'Stack 0'
+                }
+            ]
+        };
+
+        return myData;
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        this.setState({
+            isLoadingTerrainsByPeriod: false
+        })
+    }
+
+    componentWillUnmount = () => {
+        this.props.seats.terrainsByPeriod = null;
+    }
+
     render() {
         return (
             <div>
                 <Navbar />
-                <div className="container mt-3">
+                <div className="container mt-3 mb-3">
                     <h3>Reporte de análisis por terrenos de cultivo</h3>
-                    <div class="mb-3 row mt-3">
+                    <div className="mb-3 row mt-3">
                         <div className="col col-lg-3">
                             <select
                                 className="form-select"
                                 onChange={(e) => {
-                                    console.log('e.target.value', e.target.value)
                                     this.setState({
                                         period: e.target.value
                                     })
@@ -63,33 +128,39 @@ class SeatsOption3 extends Component {
                         <div className="col col-lg-2">
                             <button
                                 className={"btn btn-primary"}
-                                disabled={!this.state.isLoading ? false : true}
+                                disabled={!this.state.isLoadingTerrainsByPeriod ? false : true}
                                 onClick={() => {
                                     const { period } = this.state;
-                                    //const { trees } = this.props.seats;
                                     if (period === null) {
                                         alert("Debe elegir periodo, por favor");
                                     } else {
                                         this.setState({
-                                            //isLoading: true
+                                            isLoadingTerrainsByPeriod: true
                                         }, () => {
-                                            /*this.props.getTreesByPeriodAndTerrain(data);
-                                            let history = createBrowserHistory();
-                                            console.log('history ', history.location);
-                                            history.replace(`/options/1/period/${this.state.period}/terrain/${this.state.terrain}`)*/
+                                            this.props.getTerrainsByPeriod(period);
                                         })
                                     }
 
                                 }}
-                            >{this.state.isLoading ? "Buscando..." : "Buscar"}</button>
+                            >{this.state.isLoadingTerrainsByPeriod ? "Buscando..." : "Buscar"}</button>
                         </div>
 
                     </div>
-                    <BarGraphic />
+                    {
+                        this.props.seats.terrainsByPeriod !== null ?
+                            <BarGraphic data={this.getDataByTerrainsForBar(this.props.seats.terrainsByPeriod)} /> : null
+                    }
+
                 </div>
 
             </div>)
     }
 }
 
-export default SeatsOption3;
+function mapStateToProps({ seats }) {
+    return {
+        seats: seats
+    };
+}
+
+export default withRouter(connect(mapStateToProps, { getTerrainsByPeriod })(SeatsOption3));

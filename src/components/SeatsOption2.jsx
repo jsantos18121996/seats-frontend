@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import Navbar from "./Navbar";
 import withRouter from "./WithRouter";
+import { connect } from "react-redux";
+import { getTreesByPlantId } from '../actions/seatsActions';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import DataTable from "react-data-table-component";
 import TreeDatatable from "./TreeDatatable";
 
 class SeatsOption2 extends Component {
@@ -11,78 +12,19 @@ class SeatsOption2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading : false
+            isLoadingTreesByPlantId: this.props.seats.isLoadingTreesByPlantId,
+            plantId: null
         }
     }
 
-    componentDidMount = () => {
-        console.log('SeatsOption2 didMount ', this.props);
-        //llamar a nuevo action -> getPeriodByPlant(plantID)
+    componentWillReceiveProps = (nextProps) => {
+        this.setState({
+            isLoadingTreesByPlantId: false
+        })
     }
 
-    renderTable() {
-        console.log('entrando al renderTsable')
-        //aqui obtengo la data del props.periods
-        //const data = this.props.periods;
-        const data = [
-            {
-                "plantaId": "T01-1-1",
-                "terrainCode": "T01",
-                "periodCode": "2022-1",
-                "fechaAnalisis": "2022-02-10",
-                "agricultor": "Juan Pablo",
-                "resultadoCode": "A"
-            },
-            {
-                "plantaId": "T01-1-1",
-                "terrainCode": "T01",
-                "periodCode": "2022-2",
-                "fechaAnalisis": "2022-09-10",
-                "agricultor": "Pedro Quispe",
-                "resultadoCode": "A"
-            },
-            {
-                "plantaId": "T01-1-1",
-                "terrainCode": "T01",
-                "periodCode": "2023-1",
-                "fechaAnalisis": "2023-02-12",
-                "agricultor": "Alex Lora",
-                "resultadoCode": "A"
-            }
-        ]
-
-        const columns = [
-            {
-                name: "Periodo",
-                selector: "periodCode",
-                sortable: true
-            },
-            {
-                name: "Fecha",
-                selector: "fechaAnalisis",
-                sortable: true
-            },
-            {
-                name: "Agricultor",
-                selector: "agricultor",
-                sortable: true
-            },
-            {
-                name: "Resultado",
-                selector: "resultadoCode",
-                sortable: true
-            }
-        ]
-
-        return (
-            <div>
-                <DataTable
-                    columns={columns}
-                    data={data}
-                    title="Titulo de tabla"
-                />
-            </div>
-        )
+    componentWillUnmount = () => {
+        this.props.seats.treesByPlantId = null;
     }
 
     render() {
@@ -93,36 +35,47 @@ class SeatsOption2 extends Component {
                 <div className="container mt-3">
                     <div className="row">
                         <h3>Reporte de análisis por planta</h3>
-                        <div class="mb-3 row mt-3">
+                        <div className="mb-3 row mt-3">
                             <div className="col col-lg-2"><label for="exampleFormControlInput1" className="form-label">Ingresar código de planta: </label></div>
-                            <div className="col-md-auto"><input type="text" className="form-control " id="exampleFormControlInput1" placeholder="P001" /></div>
+                            <div className="col-md-auto">
+                                <input type="text"
+                                    className="form-control "
+                                    id="exampleFormControlInput1"
+                                    placeholder="P001"
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        this.setState({
+                                            plantId: value
+                                        })
+                                    }} />
+                            </div>
                             <div className="col col-lg-2">
                                 <div className="col-12 col-md-2">
                                     <button
                                         className={"btn btn-primary"}
-                                        disabled={!this.state.isLoading ? false : true}
+                                        disabled={!this.state.isLoadingTreesByPlantId ? false : true}
                                         onClick={() => {
-                                            const { period } = this.state;
+                                            const { plantId } = this.state;
                                             //const { trees } = this.props.seats;
-                                            if (period === null) {
-                                                alert("Debe elegir periodo, por favor");
+                                            if (plantId === null) {
+                                                alert("Debe ingresar el id de planta, por favor");
                                             } else {
                                                 this.setState({
-                                                    //isLoading: true
+                                                    isLoadingTreesByPlantId: true
                                                 }, () => {
-                                                    /*this.props.getTreesByPeriodAndTerrain(data);
-                                                    let history = createBrowserHistory();
-                                                    console.log('history ', history.location);
-                                                    history.replace(`/options/1/period/${this.state.period}/terrain/${this.state.terrain}`)*/
+                                                    this.props.getTreesByPlantId(this.state.plantId);
                                                 })
                                             }
 
                                         }}
-                                    >{this.state.isLoading ? "Buscando..." : "Buscar"}</button>
+                                    >{this.state.isLoadingTreesByPlantId ? "Buscando..." : "Buscar"}</button>
                                 </div>
                             </div>
                         </div>
-                        <TreeDatatable />
+                        {
+                            this.props.seats.treesByPlantId !== null ?
+                                <TreeDatatable data={this.props.seats.treesByPlantId} /> : null
+                        }
                     </div>
                 </div>
 
@@ -131,4 +84,10 @@ class SeatsOption2 extends Component {
 
 }
 
-export default withRouter(SeatsOption2);
+function mapStateToProps({ seats }) {
+    return {
+        seats: seats
+    };
+}
+
+export default withRouter(connect(mapStateToProps, { getTreesByPlantId })(SeatsOption2));

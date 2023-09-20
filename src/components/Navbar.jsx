@@ -12,7 +12,7 @@ const Navbar = () => (
         <div className="container-fluid">
 
             <ul className="navbar-nav">
-                <li class="navbar-brand" href="#">
+                <li className="navbar-brand" href="#">
                     <img src={iconHome} alt="iconHome" width="30" height="24" />
                 </li>
                 <li className="nav-item">
