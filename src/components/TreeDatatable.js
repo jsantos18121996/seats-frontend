@@ -4,27 +4,47 @@ import DataTable from "react-data-table-component";
 
 const columns = [
     {
-      name: "Periodo",
-      selector:  "periodCode",
-      sortable: true 
+        name: "Periodo",
+        selector: row => row.periodCode,
+        sortable: true
     },
     {
         name: "Fecha",
-        selector:  "fechaAnalisis",
-        sortable: true 
+        selector: row => row.fechaAnalisis,
+        sortable: true
     },
     {
         name: "Agricultor",
-        selector: "agricultor",
-        sortable: true 
+        selector: row => row.agricultor,
+        sortable: true
     },
     {
         name: "Resultado",
-        selector: "resultadoCode",
-        sortable: true 
+        selector: row => row.resultadoCode === "A" ? "Sano" : (row.resultadoCode === "T" ? "Enfermo" : "No determinado"),
+        sortable: true,
+        conditionalCellStyles: [
+            {
+                when: row => row.resultadoCode === "A",
+                style: {
+                    color: 'green'
+                },
+            },
+            {
+                when: row => row.resultadoCode === "T",
+                style: {
+                    color: 'red'
+                },
+            },
+            {
+                when: row => row.resultadoCode === "ND",
+                style: {
+                    color: 'blue'
+                },
+            }
+        ]
     }
 ]
 
-export default function TreeDatatable({data}) {
+export default function TreeDatatable({ data }) {
     return <DataTable data={data} columns={columns} />
 }
