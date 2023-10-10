@@ -9,34 +9,39 @@ const columns = [
         sortable: true
     },
     {
+        name: "Terreno",
+        selector: row => row.terrainCode,
+        sortable: true
+    },
+    {
         name: "Fecha",
-        selector: row => row.fechaAnalisis,
+        selector: row => row.dateAnalysis,
         sortable: true
     },
     {
         name: "Agricultor",
-        selector: row => row.agricultor,
+        selector: row => row.farmer,
         sortable: true
     },
     {
         name: "Resultado",
-        selector: row => row.resultadoCode === "A" ? "Sano" : (row.resultadoCode === "T" ? "Enfermo" : "No determinado"),
+        selector: row => row.status === "A" ? "Sano" : (row.status === "T" ? "Enfermo" : "No determinado"),
         sortable: true,
         conditionalCellStyles: [
             {
-                when: row => row.resultadoCode === "A",
+                when: row => row.status === "A",
                 style: {
                     color: 'green'
                 },
             },
             {
-                when: row => row.resultadoCode === "T",
+                when: row => row.status === "T",
                 style: {
                     color: 'red'
                 },
             },
             {
-                when: row => row.resultadoCode === "ND",
+                when: row => row.status === "ND",
                 style: {
                     color: 'blue'
                 },
