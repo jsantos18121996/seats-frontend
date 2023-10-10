@@ -6,8 +6,8 @@ const requestConfig = {
 }
 
 export const getSeats = (data) => async dispatch => {
-    //const URI = `https://seats-backend.onrender.com/api/seats/search`;
-    const URI = `http://localhost:5000/api/seats/search`;
+    const URI = `https://seats-backend.onrender.com/api/seats/search`;
+    //const URI = `http://localhost:5000/api/seats/search`;
 
     const res = await axios.post(URI, data, requestConfig);
     dispatch({
@@ -40,8 +40,8 @@ export const savePeriodsAndTerrains = (data) => async dispatch => {
 
 export const getTreesByPeriodAndTerrain = (data) => async dispatch => {
 
-    //const URI = `https://seats-backend.onrender.com/api/seats/search`;
-    const URI = `http://localhost:5000/api/seats/search`;
+    const URI = `https://seats-backend.onrender.com/api/seats/search`;
+    //const URI = `http://localhost:5000/api/seats/search`;
     console.log('data RQ ', data);
     try {
         const res = await axios.post(URI, data, requestConfig);
@@ -61,8 +61,8 @@ export const getTreesByPeriodAndTerrain = (data) => async dispatch => {
 
 export const getTreesByPlantId = (id) => async dispatch => {
 
-    const search = "http://localhost:5000/api/seats/search";
-    //const search = "https://seats-backend.onrender.com/api/seats/search";
+    //const search = "http://localhost:5000/api/seats/search";
+    const search = "https://seats-backend.onrender.com/api/seats/search";
 
     const URI = `${search}/${id}`;
     console.log('getTreesByPlantId dataRQ -> ', id);
@@ -85,8 +85,8 @@ export const getTreesByPlantId = (id) => async dispatch => {
 
 export const getTerrainsByPeriod = (data) => async dispatch => {
 
-    //const URI = `https://seats-backend.onrender.com/api/terrains/search`;
-    const URI = `http://localhost:5000/api/terrains/search`;
+    const URI = `https://seats-backend.onrender.com/api/terrains/search`;
+    //const URI = `http://localhost:5000/api/terrains/search`;
     console.log('getTerrainsByPeriod -> data RQ ', data);
     try {
         const res = await axios.post(URI, {periodCode: data}, requestConfig);
